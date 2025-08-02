@@ -25,7 +25,7 @@ class TestParentNode(unittest.TestCase):
         parent_node = ParentNode("div", [child1, child2])
         self.assertEqual(
             parent_node.to_html(),
-            "<div><p>first</p></div><div><p>second</p></div>"
+            "<div><p>first</p><p>second</p></div>"
         )
 
     def test_to_html_nested_parents(self):
@@ -51,4 +51,5 @@ class TestParentNode(unittest.TestCase):
         child = LeafNode("span", "child")
         parent = ParentNode("div", [child], props={"class": "container"})
         # Since props are not rendered in current implementation, output is same as without props
-        self.assertEqual(parent.to_html(), "<div><span>child</span></div>")
+        self.assertEqual(parent.to_html(),
+                         "<div class=\"container\"><span>child</span></div>")
