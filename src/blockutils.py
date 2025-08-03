@@ -21,18 +21,3 @@ def markdown_to_blocks(markdown: str):
     # Remove trailing newlines
     cleaned = [block.rstrip("\n") for block in cleaned]
     return cleaned
-
-
-# md = """# This is a heading
-
-# This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
-
-# - This is the first list item in a list block
-# - This is a list item
-# - This is another list item
-# """
-
-# lst = markdown_to_blocks(md)
-# for item in lst:
-#     print(item)
-#     print()

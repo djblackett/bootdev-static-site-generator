@@ -32,7 +32,7 @@ def markdown_to_html_node(markdown: str):
         elif block_type == BlockType.QUOTE:
             # If it's a quote, create a <blockquote> node (children not handled)
             html_nodes.append(
-                ParentNode("blockquote", children=text_to_children(block), props=None))
+                quote_to_html_node(block))
         else:
             # For any other block type, default to a paragraph
             html_nodes.append(paragraph_to_html_node(block))
@@ -53,10 +53,18 @@ def paragraph_to_html_node(block):
     return ParentNode("p", children=children)
 
 
+def quote_to_html_node(block):
+    lines = block.split("\n")
+    lines = [line[2:].strip(">") for line in lines]
+    quote_text = " ".join(lines)
+    children = text_to_children(quote_text)
+    return ParentNode("blockquote", children=children, props=None)
+
+
 def get_ol_children(block: str):
     items = block.split("\n")
     items = [item[3:] for item in items]
-    li_nodes = [HTMLNode("li", item, children=None, props=None)
+    li_nodes = [ParentNode("li", children=text_to_children(item), props=None)
                 for item in items]
     return li_nodes
 
@@ -64,7 +72,7 @@ def get_ol_children(block: str):
 def get_ul_children(block: str):
     items = block.split("\n")
     items = [item[2:] for item in items]
-    li_nodes = [HTMLNode("li", item, children=None, props=None)
+    li_nodes = [ParentNode("li", children=text_to_children(item), props=None)
                 for item in items]
     return li_nodes
 
@@ -76,12 +84,6 @@ def text_to_children(text: str):
         html_node = text_node_to_html_node(text_node)
         html_nodes.append(html_node)
     return html_nodes
-
-
-def unordered_list_to_html(block: str):
-    items = block.split("\n")
-    items = [f"<li>{item}</li>" for item in items]
-    return f"<ul>{''.join(items)}</ul>"
 
 
 def code_to_html_node(text):
