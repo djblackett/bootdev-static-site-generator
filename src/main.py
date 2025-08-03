@@ -50,7 +50,7 @@ def copy_static_files(src, dst):
 
 
 def cleanup():
-    public_path = os.path.join(Path.cwd(), "public")
+    public_path = os.path.join(Path.cwd(), "docs")
     static_path = os.path.join(Path.cwd(), "static")
 
     # print(public_path)
